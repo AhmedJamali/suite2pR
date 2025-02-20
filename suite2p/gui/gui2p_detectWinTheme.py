@@ -38,17 +38,28 @@ def detect_windows_theme():
             print("Could not detect Windows theme:", e)
     return theme
 
+
 def set_app_style(app):
     """
-    Sets the global palette and style sheet to mimic a Visual Studio Code–inspired dark mode.
+    Sets the global palette and style sheet to mimic a Windows 11 look.
     """
-    # VS Code–inspired dark mode colors:
-    window_bg    = "#1e1e1e"   # editor background
-    window_border= "#3c3c3c"   # subtle border
-    button_bg    = "#2d2d30"   # slightly lighter than background for buttons
-    button_border= "#3c3c3c"
-    button_hover = "#007acc"   # VS Code blue accent
-    text_color   = "#d4d4d4"   # typical VS Code text
+    theme = "dark"
+
+    # Define colors based on the theme (customize these values to your preference)
+    if theme == "dark":
+        window_bg    = "#121212"
+        window_border= "#333333"
+        button_bg    = "#333333"
+        button_border= "#555555"
+        button_hover = "#444444"
+        text_color   = "#ffffff"
+    else:
+        window_bg    = "#ffffff"
+        window_border= "#cccccc"
+        button_bg    = "#eeeeee"
+        button_border= "#bbbbbb"
+        button_hover = "#dddddd"
+        text_color   = "#000000"
 
     # Set the application's palette so that built-in widgets follow the theme
     palette = QtGui.QPalette()
@@ -64,7 +75,7 @@ def set_app_style(app):
     palette.setColor(QtGui.QPalette.BrightText, QtCore.Qt.red)
     app.setPalette(palette)
 
-    # Create a style sheet that mimics Visual Studio Code's dark theme:
+    # Create a style sheet that adds rounded corners, borders, and section outlines
     style_sheet = f"""
     QMainWindow {{
         background-color: {window_bg};
@@ -83,75 +94,96 @@ def set_app_style(app):
         padding: 5px;
     }}
     QPushButton:checked {{
-        background-color: {button_hover};
-        border: 1px solid {button_border};
+        background-color: rgb(100,50,100);
+        border: 1px solid #555555;
     }}
     QPushButton:hover {{
         background-color: {button_hover};
     }}
     QCheckBox {{
+        /* Make sure the checkbox text is visible */
         color: {text_color};
-        spacing: 5px;
+        spacing: 5px; /* space between checkbox and text */
         border: none;
     }}
     QLabel {{
         color: {text_color};
     }}
+    
     QRadioButton {{
         color: {text_color};
     }}
 
-    /* Vertical slider rules */
+    /* These rules apply to all QSliders with vertical orientation */
     QSlider[orientation="vertical"]::groove:vertical {{
-        background: {window_border};
-        width: 6px;
+        background: #666666;       /* groove color */
+        width: 6px;                /* thickness of the groove */
         border-radius: 3px;
     }}
     QSlider[orientation="vertical"]::handle:vertical {{
-        background: {text_color};
-        border: 1px solid {button_border};
+        background: #ffffff;       /* handle color */
+        border: 1px solid #bbbbbb;
         height: 14px;
-        margin: -7px 0;
-        border-radius: 7px;
+        margin: -7px 0;           /* so handle is centered on groove */
+        border-radius: 7px;       /* make handle circular */
     }}
+    
+    /* 'sub-page' is the filled portion below the handle(s) in a vertical slider */
     QSlider[orientation="vertical"]::sub-page:vertical {{
-        background: {button_hover};
+        background: #aaaaaa;
         border-radius: 3px;
     }}
+    
+    /* 'add-page' is the portion above the handle(s) in a vertical slider */
     QSlider[orientation="vertical"]::add-page:vertical {{
-        background: {window_border};
+        background: #333333;
         border-radius: 3px;
     }}
 
-    /* Horizontal slider rules */
     QSlider::groove:horizontal {{
-        background: {window_border};
-        height: 4px;
-        border-radius: 2px;
+        background: #555555;      /* groove color */
+        height: 4px;              /* groove thickness */
+        border-radius: 2px;       /* rounded corners */
         margin: 2px 0;
     }}
+
     QSlider::handle:horizontal {{
-        background: {text_color};
-        border: 1px solid {button_border};
+        background: #ffffff;      /* handle color */
+        border: 1px solid #666666;
         width: 14px;
-        margin: -5px 0;
-        border-radius: 7px;
+        margin: -5px 0;           /* handle offset so it sits centered on groove */
+        border-radius: 7px;       /* make the handle round */
     }}
     QSlider::add-page:horizontal {{
-        background: {window_border};
+        background: #666666;      /* color for the 'add' side of the slider */
     }}
     QSlider::sub-page:horizontal {{
-        background: {button_hover};
+        background: #999999;      /* color for the 'sub' side of the slider */
     }}
     QSlider::handle:horizontal:hover {{
-        background: {button_hover};
+        background: #dddddd;      /* lighter color on hover */
     }}
     QSlider::tickmarks:horizontal {{
-        background: {text_color};
+        background: #ffffff;      /* color for tick lines if you show them */
     }}
 
-    /* QLineEdit and QComboBox */
-    QLineEdit, QComboBox {{
+    QRangeSlider {{
+        background-color: #333333;
+        border: 1px solid #555555;
+        border-radius: 4px;
+    }}
+
+    QRangeSlider::handle {{
+        background: #ffffff;
+        border: 1px solid #666666;
+        width: 14px;
+        height: 14px;
+        border-radius: 7px;
+    }}
+
+    /* Make sure QLineEdit and QComboBox have a visible border and correct colors */
+    QLineEdit,
+    QComboBox {{
         background-color: {window_bg};
         color: {text_color};
         border: 1px solid {button_border};
@@ -159,7 +191,11 @@ def set_app_style(app):
         padding: 3px;
     }}
 
-    QSpinBox, QDoubleSpinBox, QPlainTextEdit, QTextEdit {{
+    /* If you have spin boxes or text edits, add them similarly */
+    QSpinBox,
+    QDoubleSpinBox,
+    QPlainTextEdit,
+    QTextEdit {{
         background-color: {window_bg};
         color: {text_color};
         border: 1px solid {button_border};
@@ -167,6 +203,7 @@ def set_app_style(app):
         padding: 3px;
     }}
 
+    /* Style tooltips so text is visible and background is distinct */
     QToolTip {{
         background-color: {button_bg};
         color: {text_color};

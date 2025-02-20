@@ -79,8 +79,8 @@ try:
     import torch
     major_version, minor_version, _ = torch.__version__.split(".")
     # Optionally remove older constraints if a newer Torch is present
-    if major_version == "2" or int(minor_version) >= 6:
-        install_deps.remove("torch>=1.6")
+    if "torch>=1.13.1" in install_deps and (major_version == "2" or int(minor_version) >= 6):
+        install_deps.remove("torch>=1.13.1")
 except ImportError:
     pass
 
