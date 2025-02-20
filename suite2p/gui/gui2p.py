@@ -20,23 +20,23 @@ from . import buttons, graphics, menus, io, merge, views, classgui, traces, mask
 from .. import run_s2p, default_ops
 
 
-def detect_windows_theme():
-    """
-    Detects whether Windows is using a light or dark theme.
-    Returns "light" or "dark" (default is light).
-    """
-    theme = "light"
-    if platform.system() == "Windows":
-        try:
-            import winreg
-            registry = winreg.ConnectRegistry(None, winreg.HKEY_CURRENT_USER)
-            key = winreg.OpenKey(registry, r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize")
-            # Value 1 = light theme, 0 = dark theme
-            value, _ = winreg.QueryValueEx(key, "AppsUseLightTheme")
-            theme = "light" if value == 1 else "dark"
-        except Exception as e:
-            print("Could not detect Windows theme:", e)
-    return theme
+# def detect_windows_theme():
+#     """
+#     Detects whether Windows is using a light or dark theme.
+#     Returns "light" or "dark" (default is light).
+#     """
+#     theme = "light"
+#     if platform.system() == "Windows":
+#         try:
+#             import winreg
+#             registry = winreg.ConnectRegistry(None, winreg.HKEY_CURRENT_USER)
+#             key = winreg.OpenKey(registry, r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize")
+#             # Value 1 = light theme, 0 = dark theme
+#             value, _ = winreg.QueryValueEx(key, "AppsUseLightTheme")
+#             theme = "light" if value == 1 else "dark"
+#         except Exception as e:
+#             print("Could not detect Windows theme:", e)
+#     return theme
 
 def set_app_style(app):
     """
