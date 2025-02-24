@@ -44,7 +44,7 @@ def AJ_sci_raw_to_binary(ops):
     which_folder = -1
     ntotal = 0
     for ik, file in enumerate(fs):
-        raw_data = np.memmap(file, dtype=np.uint16, mode='r')  # Memory map the raw file
+        raw_data = np.memmap(file, dtype='>u2', mode='r')  # Memory map the raw file
         Lraw = raw_data.size // (ops['Ly'] * ops['Lx']) # removed (* nchannels) from the end of the line
 
         
@@ -53,14 +53,25 @@ def AJ_sci_raw_to_binary(ops):
             iplane = 0
         ix = 0
 
-        while 1:
+        while True:
             if ix >= Lraw:
                 break
             nfr = min(Lraw - ix, batch_size)
-            im = raw_data[ix * ops['Ly'] * ops['Lx'] : (ix + nfr) * ops['Ly'] * ops['Lx']] # Removed: * nchannels from the end of the line and before colon
-            im = im.reshape((nfr, ops['Ly'], ops['Lx']))
-            im = im.byteswap().newbyteorder('<')  # Corrects the byteorder from big-endian to little-endian
 
+            # Slice out the next batch
+            start = ix * ops['Ly'] * ops['Lx']
+            stop  = (ix + nfr) * ops['Ly'] * ops['Lx']
+            im = raw_data[start : stop]
+
+            # Reshape
+            im = im.reshape((nfr, ops['Ly'], ops['Lx']))
+
+            # Check if it's actually big-endian (unlikely here because we declared it as np.uint16)
+            # But let's suppose we somehow discover it is. We can test the byteorder:
+            if im.dtype.byteorder == '>':
+                im = im.astype('<u2')
+
+            # Halve and cast to int16, if desired
             if im.dtype.type == np.uint16:
                 im = (im // 2).astype(np.int16)
 

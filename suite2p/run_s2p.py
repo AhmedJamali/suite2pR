@@ -50,6 +50,12 @@ try:
 except ImportError:
     HAS_DCIMG = False
 
+try:
+    import sci_raw          # ------------------------------------------------ Added by me, for handling .raw files
+    HAS_sci_raw = True      # ------------------------------------------------ Added by me, for handling .raw files
+except ImportError:         # ------------------------------------------------ Added by me, for handling .raw files
+    HAS_sci_raw  = False    # ------------------------------------------------ Added by me, for handling .raw files
+
 from functools import partial
 from pathlib import Path
 
@@ -470,6 +476,10 @@ def run_s2p(ops={}, db={}, server={}):
             ops["input_format"] = "dcimg"
             if not HAS_DCIMG:
                 raise ImportError("dcimg not found; pip install dcimg")
+        elif ops.get("sci_raw"): # added by Ahmed
+            ops["input_format"] = "sci_raw"
+            if not HAS_sci_raw:
+                raise ImportError("sci_raw not found; check codes")
         elif not "input_format" in ops:
             ops["input_format"] = "tif"
         elif ops["input_format"] == "movie":
@@ -496,6 +506,8 @@ def run_s2p(ops={}, db={}, server={}):
                 io.movie_to_binary,
             "dcimg":
                 io.dcimg_to_binary,
+            "sci_raw":                      # ------------------------------------------------ Added by me, for handling .raw files
+                io.AJ_sci_raw_to_binary,    # ------------------------------------------------ Added by me, for handling .raw files
         }
         if ops["input_format"] in convert_funs:
             ops0 = convert_funs[ops["input_format"]](ops.copy())
