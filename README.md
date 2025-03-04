@@ -108,7 +108,8 @@ pip install git+https://github.com/AhmedJamali/suite2pR.git
 with GUI dependencies: 
 
 ~~~~
-pip install git+https://github.com/AhmedJamali/suite2pR.git#egg=suite2p[gui]
+pip install "suite2p@git+https://github.com/AhmedJamali/suite2pR.git#subdirectory=."
+pip install "suite2p[gui]"
 ~~~~
 
 If you want to download and edit the code, and use that version,
