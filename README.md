@@ -80,8 +80,8 @@ For full documentation, please see the [official Suite2p docs](https://suite2p.r
 
 1. Install an [Anaconda](https://www.anaconda.com/download/) distribution of Python -- Choose **Python 3.8** and your operating system. Note you might need to use an anaconda prompt if you did not add anaconda to the path.
 2. Open an anaconda prompt / command prompt with `conda` for **python 3** in the path
-3. Create a new environment with `conda create --name suite2p python=3.9`.
-4. To activate this new environment, run `conda activate suite2p`.
+3. Create a new environment with `conda create --name suite2pR python=3.9`.
+4. To activate this new environment, run `conda activate suite2pR`.
 5. The simplest way is
 ~~~
 pip install git+https://github.com/AhmedJamali/suite2pR.git
