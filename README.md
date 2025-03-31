@@ -81,17 +81,15 @@ For full documentation, please see the [official Suite2p docs](https://suite2p.r
 1. Install an [Anaconda](https://www.anaconda.com/download/) distribution of Python -- Choose **Python 3.8** and your operating system. Note you might need to use an anaconda prompt if you did not add anaconda to the path.
 2. Open an anaconda prompt / command prompt with `conda` for **python 3** in the path
 3. Create a new environment with `conda create --name suite2p python=3.9`.
-4. To activate this new environment, run `conda activate suite2p`. 
-5. (Option 1) You can install the minimal version of suite2p, run `python -m pip install suite2p`. 
-6. (Option 2) You can install the GUI version with `python -m pip install suite2p[gui]`. If you're on a zsh server, you may need to use `' '` around the suite2p[gui] call: `python -m pip install 'suite2p[gui]'`. This also installs the NWB dependencies.
-7. Now run `python -m suite2p` and you're all set.
-8. Running the command `suite2p --version` in the terminal will print the install version of suite2p.
-
-For additional dependencies, like h5py, NWB, Scanbox, and server job support, use the command `python -m pip install suite2p[io]`.
-
-If you have an older `suite2p` environment you can remove it with `conda env remove -n suite2p` before creating a new one.
-
-Note you will always have to run **conda activate suite2p** before you run suite2p. Conda ensures mkl_fft and numba run correctly and quickly on your machine. If you want to run jupyter notebooks in this environment, then also `conda install jupyter`.
+4. To activate this new environment, run `conda activate suite2p`.
+5. The simplest way is
+~~~
+pip install git+https://github.com/AhmedJamali/suite2pR.git
+~~~
+6. with GUI dependencies: 
+~~~~
+pip install "suite2p[gui] @ git+https://github.com/AhmedJamali/suite2pR.git#subdirectory=."
+~~~~
 
 ### Dependencies
 
@@ -100,17 +98,6 @@ This package relies on the awesomeness of [pyqtgraph](http://pyqtgraph.org/), [P
 The software has been heavily tested on Windows 10 and Ubuntu 18.04, and less well tested on Mac OS. Please post an [issue](https://github.com/MouseLand/suite2p/issues) if you have installation problems. 
 
 ### Installing the latest github version of the code
-
-The simplest way is
-~~~
-pip install git+https://github.com/AhmedJamali/suite2pR.git
-~~~
-with GUI dependencies: 
-
-~~~~
-pip install "suite2p@git+https://github.com/AhmedJamali/suite2pR.git#subdirectory=."
-pip install "suite2p[gui]"
-~~~~
 
 If you want to download and edit the code, and use that version,
 1. Clone the repository with git and `cd suite2p`
